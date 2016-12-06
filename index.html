@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>AmazonInspect</title>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+
+
+    <!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- header -->
+
+    <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Review Summary</a>
+            </div>
+        </div>
+    </div>
+	<!-- search dialog -->
+    <div class="container" style="float:right;padding-bottom:25px;">
+        <div class="row">
+            <div class="col-md-6" style="float:right;">
+                <form action="" method="get" autocomplete="on">
+                    <h4><strong>Enter product name</strong></h4>
+                    <div id="custom-search-input">
+                        <div class="input-group col-md-12">
+							<!--<form id="postprod" action="/ReviewShilling/v1.0/products/" method="POST">-->
+								<input list="searchprod" class="form-control input-lg" placeholder="Search">
+
+
+								<datalist id="searchprod">
+								{% for product_id, product_name in products %}
+
+								<form action="{{  product_id  }}" method="GET" id="form1" onsubmit="/ReviewShill/v1.0/products/{{  product_id  }}">
+
+									<option value="{{  product_id  }}" name="prod_id">{{  product_name  }}</option>
+													</form>
+								{%endfor%}
+								</datalist>
+								<span class="input-group-btn">
+									<input class="btn btn-info btn-lg" type="submit">
+										<i class="glyphicon glyphicon-search"></i>
+									</input>
+								</span>
+				
+
+							<!--</form>-->
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+	<!-- search dialog ends -->
+    <!-- /Header -->
+
+    <!-- Main -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3">
+                <!-- Left column -->
+                <strong>
+				<i class="glyphicon glyphicon-wrench"></i>All Categories</strong>
+                <hr>
+                <ul class="nav nav-stacked">
+                    {% for catid,catname in categories %}
+                    <li class="nav-header" value="{{  catid  }}" name="catid">
+						<form action="{{  catid  }}" method="GET" id="form2">
+							<a href="#" onclick="document.forms['form2'].submit();return false;" name="{{  catname  }}"><strong>{{  catname  }}<strong></a>
+						</form>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <hr>
+            </div>
+            <!--<div class="col-sm-3 is-hidden" id="subcat" style="z-index:2;">
+                <ul class="nav nav-stacked">
+                    {% for prod in menuprod %}
+                    <li class="nav-header" value="{{  prod  }}" name="prod">
+                        <form id="form1" action="prod" method="POST">
+                            <p><a href="#" onclick="document.getElementById('form1').submit();" name="{{  prod  }}"><strong>{{  prod  }}<strong></a>
+                            </p>
+                        </form>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <hr>
+            </div>-->
+            <!-- /col-3 -->
+            <div class="col-sm-9" id="prInfo">
+                <strong><i class="glyphicon glyphicon-dashboard"></i> Dashboard</strong>
+                <hr>
+                <div class="row">
+                    <!-- center left-->
+                    <div class="col-md-6">
+                        <div class="well" id="prodName">{{ product_name }}
+                            <!--<span class="badge pull-right">3</span>-->
+                        </div>
+                        <div><img src="{{  url  }}" width="300px">
+                        </div>
+                        <br>
+                        <!--tabs-->
+                        <div class="panel">
+                            <ul class="nav nav-tabs" id="myTab">
+                                <li class="active"><a href="#product" data-toggle="tab"><i class="glyphicon glyphicon-th"></i>Product Info</a>
+                                </li>
+                                <li>
+									<a href="#reviews" data-toggle="tab"><i class="glyphicon glyphicon-tag"></i>Review Info</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active well" id="product">
+                                    <h4></h4> Product name: {{ product_name }}
+                                </div>
+
+                                <div class="tab-pane well" id="reviews">
+                                    <h4></h4> Number of reviews: {{ length }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="width: 103%;padding-left: 0px;">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4><i class="glyphicon glyphicon-pencil"></i>Reviews</h4>
+                                </div>
+                                <div class="panel-body" name="">
+                                    {% for review,reviewer in reviews.items() %}
+                                    <p><i> {{  review  }} </i>
+                                    </p>
+									{% for rname, rid in reviewer.items() %}									
+									<form action="{{  rid  }}" method="GET" id="forme">
+										<p><a href="#" onclick="document.forms['forme'].submit();return false;" name="reviewer" id="reviewer" class="color:red;"><strong>{{  rname  }}<strong></a>
+									</form>
+                                    {% endfor %}									<hr/>
+									{% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					
+					<!--for reviewer info-->
+					{% if rev ==1%}
+					<div class="row is-hidden" id="revInfo">
+                    <!-- center left-->
+                    <div class="col-md-6">
+                        <div class="well" id="prodName">{{ product_name }}
+                            <!--<span class="badge pull-right">3</span>-->
+                        </div>
+                        <br>
+                        <!--tabs-->
+                        <div class="panel">
+                            <ul class="nav nav-tabs" id="myTab">
+                                <li class="active"><a href="#product" data-toggle="tab"><i class="glyphicon glyphicon-th"></i>Product Info</a>
+                                </li>
+                                <li>
+									<a href="#reviews" data-toggle="tab"><i class="glyphicon glyphicon-tag"></i>Review Info</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active well" id="product">
+                                    <h4></h4> Product name: {{ product_name }}
+                                </div>
+
+                                <div class="tab-pane well" id="reviews">
+                                    <h4></h4> Number of reviews: {{ length }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="width: 103%;padding-left: 0px;">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4><i class="glyphicon glyphicon-pencil"></i>Reviews</h4>
+                                </div>
+                                <div class="panel-body" name="">
+                                    {% for review,reviewer in reviews.items() %}
+                                    <p><i> {{  review  }} </i>
+                                    </p>
+									{% for rname, rid in reviewer.items() %}									
+									<form action="{{  rid  }}" method="GET" id="forme">
+										<p><a href="#" onclick="document.forms['forme'].submit();return false;" name="reviewer" id="reviewer" class="color:red;"><strong>{{  rname  }}<strong></a>
+									</form>
+                                    {% endfor %}									<hr/>
+									{% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					
+					<!--for review info ends-->
+                    <!--/col-->
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4>Review Quality</h4>
+                            </div>
+                            <div class="panel-body">
+                                <small>Real</small>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{  100-fake  }}" aria-valuemin="0" aria-valuemax="100" style="width: {{  100-fake  }}%">
+                                        <span class="sr-only">{{  100-fake  }}% Complete</span>
+                                    </div>
+                                </div>
+                                <small>Fake</small>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="{{  fake  }}" aria-valuemin="0" aria-valuemax="100" style="width: {{  fake  }}%">
+                                        <span class="sr-only">{{  fake  }}% Complete</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/panel-body-->
+                        </div>
+                        <hr/>
+                        <!-- Word cloud :Nitika-->
+                        <div>
+                            <img src="{{ url_for('static', filename='%s.png' % pid) }}" width="500px">
+                        </div>
+                        <hr/>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4>Summary</h4>
+                            </div>
+                            <div class="panel-body">
+                                <div class="alert alert-info">
+                                    <button type="button" class="close"></button>
+                                    Most of the reviews for this product seem to be true.
+                                </div>
+                                <p> Analysis of reviews:</p>
+                                <p>1. According to our analysis, over {{ 100-fake }}% of the reviews are real.</p>
+                            <p>2. Based on all the reviews we assign a Shilling Index of {{ '%0.2f'| format(shill|float) }}.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/col-span-6-->
+                </div>
+				{%endif%}
+                <!--/row-->
+                <hr>
+            </div>
+            <!--/col-span-9-->
+        </div>
+    </div>
+
+    <!-- script references -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script>
+        function show_sub() {
+            document.getElementById('prod').classList.remove('is-hidden');
+        }
+		
+		
+    </script>
+</body>
+
+</html>

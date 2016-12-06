@@ -1,0 +1,8 @@
+{"asin": "6073894996Y",
+ "cid": "9",
+ "title": "testing",
+ "imurl": "testing",
+ "price": "0.0",
+ "rank": "0",
+ "reviews": [{"summary": "I have wasted a lot of money on cords", "unixReviewTime": 1405900800, "reviewerName": "Trisha Crocker", "helpful": [0, 0], "reviewerID": "A1AG6U022WHXBFX1", "asin": "6073894996Y", "reviewTime": "07 21, 2014", "overall": 5.0, "reviewText": "product as described, I have wasted a lot of money on cords. I would buy them (usually on road trips) and then go to plug my phone in just to discover I have to work with cord and leave my phone sit while it was charging. This cord has not given me any issues, works just like my original!!"}]
+}
